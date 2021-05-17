@@ -1,3 +1,4 @@
+import sys
 import time
 
 import KeyboardHelper
@@ -42,8 +43,9 @@ def is_eng(s: str) -> bool:
 
 
 if __name__ == '__main__':
-    time.sleep(1.5)
-    t = KeyboardHelper.read_clipboard()
+    is_all = int(sys.argv[1]) == 1
+    time.sleep(1.5 if is_all else 3)
+    t = KeyboardHelper.read_clipboard(is_all)
     conv = ""
 
     if is_eng(t):

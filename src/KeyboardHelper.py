@@ -22,8 +22,9 @@ def keyboard_ctrl_press(key: CtrlKeys):
     keyboard.release(Key.ctrl)
 
 
-def read_clipboard() -> str:
-    keyboard_ctrl_press(CtrlKeys.ALL)
+def read_clipboard(is_all: bool) -> str:
+    if is_all:
+        keyboard_ctrl_press(CtrlKeys.ALL)
     keyboard_ctrl_press(CtrlKeys.COPY)
     time.sleep(0.05)
 
