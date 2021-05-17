@@ -1,6 +1,6 @@
 from enum import Enum
 
-import win32clipboard
+import win32clipboard as clipboard
 from pynput.keyboard import Key, Controller
 import time
 
@@ -22,22 +22,43 @@ def keyboard_ctrl_press(key: CtrlKeys):
     keyboard.release(Key.ctrl)
 
 
-def read_clipboard(is_all: bool) -> str:
-    if is_all:
-        keyboard_ctrl_press(CtrlKeys.ALL)
-    keyboard_ctrl_press(CtrlKeys.COPY)
-    time.sleep(0.05)
+def unfocused_tab():
+    keyboard.press(Key.alt)
+    keyboard.press(Key.tab)
 
-    win32clipboard.OpenClipboard()
-    data = win32clipboard.GetClipboardData()
-    win32clipboard.CloseClipboard()
-    return data
+    keyboard.release(Key.alt)
+    keyboard.release(Key.tab)
 
 
 def put_clipboard(text: str):
-    win32clipboard.OpenClipboard()
-    win32clipboard.EmptyClipboard()
-    win32clipboard.SetClipboardData(win32clipboard.CF_UNICODETEXT, text)
-    win32clipboard.CloseClipboard()
+    clipboard.OpenClipboard()
+    clipboard.EmptyClipboard()
+    clipboard.SetClipboardData(clipboard.CF_UNICODETEXT, text)
+    clipboard.CloseClipboard()
 
+
+def read_clipboard(clean=False):
+    clipboard.OpenClipboard()
+    try:
+        data = clipboard.GetClipboardData(clipboard.CF_UNICODETEXT)
+    except TypeError:
+        data = ""
+    if clean:
+        clipboard.EmptyClipboard()
+    clipboard.CloseClipboard()
+    return data
+
+
+def read_for_invert(is_all: bool) -> str:
+    if is_all:
+        keyboard_ctrl_press(CtrlKeys.ALL)
+
+    keyboard_ctrl_press(CtrlKeys.COPY)
+    time.sleep(0.1)
+
+    return read_clipboard()
+
+
+def put_inversion(text: str):
+    put_clipboard(text)
     keyboard_ctrl_press(CtrlKeys.PASTE)

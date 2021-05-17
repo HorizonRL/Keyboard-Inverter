@@ -43,14 +43,25 @@ def is_eng(s: str) -> bool:
 
 
 if __name__ == '__main__':
-    is_all = int(sys.argv[1]) == 1
-    time.sleep(1.5 if is_all else 3)
-    t = KeyboardHelper.read_clipboard(is_all)
+
+    debug_mode = len(sys.argv) <= 1
+    if debug_mode:
+        is_all = True
+    else:
+        is_all = int(sys.argv[1]) == 1
+
+    clipboard_data = KeyboardHelper.read_clipboard(clean=True)
+
+    KeyboardHelper.unfocused_tab()
+    time.sleep(0.5 if is_all else 0.5)
+    t = KeyboardHelper.read_for_invert(is_all)
     conv = ""
 
     if is_eng(t):
         conv = to_heb(t)
     else:
         conv = to_eng(t)
+    KeyboardHelper.put_inversion(conv)
 
-    KeyboardHelper.put_clipboard(conv)
+    time.sleep(0.05)
+    KeyboardHelper.put_clipboard(clipboard_data)
