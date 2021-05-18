@@ -9,7 +9,7 @@ def to_heb(s: str) -> str:
     converted = ""
     for c in s:
         try:
-            converted += LangsDictionary.HEB_ENG_QWERTY[c.capitalize()]
+            converted += LangsDictionary.HEB_ENG_QWERTY[c.capitalize() if c.isalpha() else c]
 
         except KeyError:
             converted += c
@@ -22,10 +22,10 @@ def to_eng(s: str) -> str:
 
     converted = ""
     for c in s:
-        if c in val_list:
+        try:
             pos = val_list.index(c)
             converted += key_list[pos]
-        else:
+        except ValueError:
             converted += c
 
     return converted.lower()
@@ -38,12 +38,10 @@ def is_eng(s: str) -> bool:
     for c in s:
         if c.capitalize() in key_list:
             eng_counter += 1
-
     return len(s) - eng_counter < eng_counter
 
 
 if __name__ == '__main__':
-
     debug_mode = len(sys.argv) <= 1
     if debug_mode:
         is_all = True
@@ -55,7 +53,6 @@ if __name__ == '__main__':
     KeyboardHelper.unfocused_tab()
     time.sleep(0.5 if is_all else 0.5)
     t = KeyboardHelper.read_for_invert(is_all)
-    conv = ""
 
     if is_eng(t):
         conv = to_heb(t)
@@ -65,3 +62,4 @@ if __name__ == '__main__':
 
     time.sleep(0.05)
     KeyboardHelper.put_clipboard(clipboard_data)
+

@@ -1,5 +1,4 @@
 from enum import Enum
-
 import win32clipboard as clipboard
 from pynput.keyboard import Key, Controller
 import time
@@ -30,22 +29,39 @@ def unfocused_tab():
     keyboard.release(Key.tab)
 
 
+def open_clipboard():
+    try:
+        clipboard.OpenClipboard(0)
+    except:
+        pass
+
+
+def close_clipboard():
+    try:
+        clipboard.CloseClipboard()
+    except:
+        pass
+
+
 def put_clipboard(text: str):
-    clipboard.OpenClipboard()
+    open_clipboard()
     clipboard.EmptyClipboard()
     clipboard.SetClipboardData(clipboard.CF_UNICODETEXT, text)
-    clipboard.CloseClipboard()
+    close_clipboard()
 
 
 def read_clipboard(clean=False):
-    clipboard.OpenClipboard()
+    open_clipboard()
     try:
-        data = clipboard.GetClipboardData(clipboard.CF_UNICODETEXT)
+        data = clipboard.GetClipboardData()
     except TypeError:
+        clipboard.EmptyClipboard()
         data = ""
+
     if clean:
         clipboard.EmptyClipboard()
-    clipboard.CloseClipboard()
+
+    close_clipboard()
     return data
 
 
@@ -54,11 +70,12 @@ def read_for_invert(is_all: bool) -> str:
         keyboard_ctrl_press(CtrlKeys.ALL)
 
     keyboard_ctrl_press(CtrlKeys.COPY)
-    time.sleep(0.1)
+    time.sleep(0.2)
 
     return read_clipboard()
 
 
 def put_inversion(text: str):
     put_clipboard(text)
+    time.sleep(0.1)
     keyboard_ctrl_press(CtrlKeys.PASTE)
