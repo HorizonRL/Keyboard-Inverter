@@ -51,7 +51,7 @@ if __name__ == '__main__':
     clipboard_data = KeyboardHelper.read_clipboard(clean=True)
 
     KeyboardHelper.unfocused_tab()
-    time.sleep(0.5 if is_all else 0.5)
+    time.sleep(0.3 if is_all else 0.7)
     t = KeyboardHelper.read_for_invert(is_all)
 
     if is_eng(t):

@@ -70,7 +70,7 @@ def read_for_invert(is_all: bool) -> str:
         keyboard_ctrl_press(CtrlKeys.ALL)
 
     keyboard_ctrl_press(CtrlKeys.COPY)
-    time.sleep(0.2)
+    time.sleep(0.1)
 
     return read_clipboard()
 
