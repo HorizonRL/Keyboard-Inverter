@@ -59,6 +59,7 @@ if __name__ == '__main__':
     else:
         conv = to_eng(t)
     KeyboardHelper.put_inversion(conv)
+    KeyboardHelper.change_comp_lang()
 
     time.sleep(0.05)
     KeyboardHelper.put_clipboard(clipboard_data)

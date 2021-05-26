@@ -29,6 +29,14 @@ def unfocused_tab():
     keyboard.release(Key.tab)
 
 
+def change_comp_lang():
+    keyboard.press(Key.alt)
+    keyboard.press(Key.shift)
+
+    keyboard.release(Key.alt)
+    keyboard.release(Key.shift)
+
+
 def open_clipboard():
     try:
         clipboard.OpenClipboard(0)
@@ -79,3 +87,4 @@ def put_inversion(text: str):
     put_clipboard(text)
     time.sleep(0.1)
     keyboard_ctrl_press(CtrlKeys.PASTE)
+
