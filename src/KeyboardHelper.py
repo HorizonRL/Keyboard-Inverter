@@ -37,6 +37,12 @@ def change_comp_lang():
     keyboard.release(Key.shift)
 
 
+def toggle_caps():
+    keyboard.press(Key.caps_lock)
+
+    keyboard.release(Key.caps_lock)
+
+
 def open_clipboard():
     try:
         clipboard.OpenClipboard(0)
@@ -87,4 +93,3 @@ def put_inversion(text: str):
     put_clipboard(text)
     time.sleep(0.1)
     keyboard_ctrl_press(CtrlKeys.PASTE)
-

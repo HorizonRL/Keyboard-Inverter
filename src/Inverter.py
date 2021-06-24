@@ -53,6 +53,7 @@ if __name__ == '__main__':
     KeyboardHelper.unfocused_tab()
     time.sleep(0.3 if is_all else 0.7)
     t = KeyboardHelper.read_for_invert(is_all)
+    is_from_caps = t.isupper()
 
     if is_eng(t):
         conv = to_heb(t)
@@ -62,5 +63,8 @@ if __name__ == '__main__':
     KeyboardHelper.change_comp_lang()
 
     time.sleep(0.05)
-    KeyboardHelper.put_clipboard(clipboard_data)
+    if is_from_caps:
+        KeyboardHelper.toggle_caps()
+    else:
+        KeyboardHelper.put_clipboard(clipboard_data)
 
