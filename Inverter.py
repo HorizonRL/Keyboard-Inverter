@@ -42,11 +42,14 @@ def is_eng(s: str) -> bool:
 
 
 if __name__ == '__main__':
+
+    modes = {
+        "all": 1,
+        "selected": 2
+    }
+
     debug_mode = len(sys.argv) <= 1
-    if debug_mode:
-        is_all = True
-    else:
-        is_all = int(sys.argv[1]) == 1
+    is_all = (int(sys.argv[1]) == modes['all']) or debug_mode
 
     clipboard_data = KeyboardHelper.read_clipboard(clean=True)
 
@@ -67,4 +70,3 @@ if __name__ == '__main__':
         KeyboardHelper.toggle_caps()
     else:
         KeyboardHelper.put_clipboard(clipboard_data)
-
